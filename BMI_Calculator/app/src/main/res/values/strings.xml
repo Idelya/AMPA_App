@@ -1,0 +1,37 @@
+<resources>
+    <string name="mass_label">Mass:</string>
+    <string name="mass_unit_kg">kg</string>
+    <string name="mass_unit_lb">lb</string>
+    <string name="count_bmi">Count BMI</string>
+    <string name="empty_value">0.00</string>
+    <string name="input_is_empty">Please provide value.</string>
+    <string name="height_is_too_low">The value is too low. Make sure the data is in the correct units.</string>
+    <string name="height_is_too_high">The value is too high. Make sure the data is in the correct units.</string>
+    <string name="mass_is_too_low">The value is too low. Make sure the data is in the correct units.</string>
+    <string name="mass_is_too_high">Value is too high. Please make sure that you used correct units.</string>
+    <string name="height_label">Height:</string>
+    <string name="height_units_cm">cm</string>
+    <string name="height_units_in">in</string>
+    <string name="app_name">BMI Calculator</string>
+    <string name="change_units">Change units</string>
+    <string name="success">Success</string>
+    <string name="pending">Pending</string>
+    <string name="underweight">Underweight</string>
+    <string name="optimum">Optimum</string>
+    <string name="overweight">Overweight</string>
+    <string name="obesity">Obesity</string>
+    <string name="describeUnderweight">You may not be eating enough or an underlying illness could be
+        preventing you from gaining weight. Underweight adults are at increased risk of weakened immune system,
+        fragile bones and may experience low energy levels. If you struggle to gain weight, see a GP.</string>
+    <string name="describeOptimum">
+        Adults in the normal range are considered to have a healthy weight. Maintain it with regular exercise and a healthy diet.
+    </string>
+    <string name="describeOverweight">A high proportion of adults fall into the overweight category.
+        There are factors that may cause your BMI to be inaccurate - if you have high muscle bulk for example.
+        That is why it is important to look at a range of measurements to get a better overall picture of your health.
+        However, this is a good time to make an honest assessment of your lifestyle to see if you should
+        reduce calories in your diet or increase the calories you burn with exercise. The higher you fall within this b
+        racket the higher your risk of cardiovascular disease.</string>
+    <string name="describeObesity">Being obese significantly increases your risk of developing heart
+        disease and type 2 diabetes. If you fall into this category you should see a GP and ask their advice on bringing down your weight.</string>
+</resources>
