@@ -3,7 +3,7 @@
     <dimen name="margin">6dp</dimen>
     <dimen name="margin_distance_s">12dp</dimen>
     <dimen name="margin_distance_l">24dp</dimen>
-    <dimen name="padding">10dp</dimen>
+    <dimen name="padding">8dp</dimen>
     <dimen name="border_size">8dp</dimen>
     <dimen name="text_size_s">50dp</dimen>
     <dimen name="text_size_l">100dp</dimen>

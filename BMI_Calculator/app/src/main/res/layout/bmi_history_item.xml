@@ -37,18 +37,16 @@
         android:layout_height="wrap_content"
         android:text="@string/height_label"
         android:layout_weight="1"
-        android:layout_marginStart="@dimen/margin_distance_l"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/massUnitTV"/>
+        android:layout_margin="@dimen/margin"
+        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
+        app:layout_constraintStart_toStartOf="parent"/>
     <TextView
         android:id="@+id/heightTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="@dimen/margin"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
         app:layout_constraintStart_toEndOf="@+id/heightLabelTV"/>
     <TextView
         android:id="@+id/heightUnitTV"
@@ -57,7 +55,7 @@
         android:layout_weight="1"
         android:layout_margin="@dimen/margin"
         android:text="@string/height_units_cm"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
         app:layout_constraintStart_toEndOf="@+id/heightTV"/>
     <TextView
         android:id="@+id/bmiLabelTV"
@@ -67,7 +65,7 @@
         android:text="@string/bmi_label"
         android:layout_margin="@dimen/margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
+        app:layout_constraintTop_toBottomOf="@+id/heightLabelTV"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
         android:id="@+id/bmiValueTV"
@@ -76,7 +74,7 @@
         android:layout_weight="1"
         android:layout_margin="@dimen/margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
+        app:layout_constraintTop_toBottomOf="@+id/heightLabelTV"
         app:layout_constraintStart_toEndOf="@+id/bmiLabelTV"/>
 
     <TextView
@@ -87,7 +85,7 @@
         android:layout_marginStart="@dimen/margin_distance_l"
         android:layout_marginTop="@dimen/margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintTop_toBottomOf="@+id/massLabelTV"
+        app:layout_constraintTop_toBottomOf="@+id/heightLabelTV"
         app:layout_constraintStart_toEndOf="@+id/bmiValueTV"/>
     <TextView
         android:id="@+id/dateTV"

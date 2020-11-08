@@ -13,7 +13,10 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson;
 import  com.example.bmi_calculator.databinding.ActivityMainBinding
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
@@ -134,7 +137,8 @@ class MainActivity : AppCompatActivity() {
             val countStatus = bmiCounter.countWithValidator(userMass, userHeight)
 
             if(bmiCounter.lastCountStatus == InputStatus.SUCCESS && userMass != null && userHeight != null) {
-                bmiHistory.add(BmiData(userMass, userHeight, bmiCounter.bmi, "08.11.2020", bmiCounter.unitsEn))
+
+                bmiHistory.add(BmiData(userMass, userHeight, bmiCounter.bmi, getCurrentDate(), bmiCounter.unitsEn))
                 if(bmiHistory.size > 10) bmiHistory.removeAt(0)
                 val sharedPref = this@MainActivity.getPreferences(Context.MODE_PRIVATE) ?: return
                 with (sharedPref.edit()) {
@@ -160,5 +164,19 @@ class MainActivity : AppCompatActivity() {
             val historyAsString = Gson().toJson(bmiHistory)
             historyActivity.putExtra(USER_HISTORY_KEY, historyAsString)
             startActivity(historyActivity)
+    }
+
+    private fun getCurrentDate() : String{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val current = LocalDate.now()
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            var answer: String =  current.format(formatter)
+            return answer
+        } else {
+            var date = Date()
+            val formatter = SimpleDateFormat("dd-MM-yyyy")
+            val answer: String = formatter.format(date)
+            return answer
+        }
     }
 }
