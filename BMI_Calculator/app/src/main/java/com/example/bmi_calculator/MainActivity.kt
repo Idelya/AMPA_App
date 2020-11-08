@@ -1,30 +1,44 @@
 package com.example.bmi_calculator
 
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
+import com.google.gson.Gson;
 import  com.example.bmi_calculator.databinding.ActivityMainBinding
+import com.google.gson.reflect.TypeToken
+import java.time.LocalDate
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bmiCounter: BmiCalc
+    private lateinit var bmiHistory: MutableList<BmiData>
     private val HEIGHT_ET_KEY: String = "height_et_key"
     private val MASS_ET_KEY: String = "mass_et_key"
     private val LAST_BMI_KEY: String = "last_bmi_key"
     private val STATUS_COUNTED_KEY = "status_input_count"
     private val CHANGED_UNIT_KEY: String = "units_key"
+    private val USER_HISTORY_KEY: String = "bmi_calculator_user_history"
     private val RESULT_ACTIVITY_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         bmiCounter = BmiCalc();
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
+        val historyString = sharedPref.getString(USER_HISTORY_KEY, null)
+
+        val type = object : TypeToken<List<BmiData?>?>() {}.type
+        bmiHistory = if(historyString != null) Gson().fromJson(historyString, type) else mutableListOf()
         setContentView(binding.root)
     }
 
@@ -74,6 +88,10 @@ class MainActivity : AppCompatActivity() {
                 changeUnitsEffect()
                 true
             }
+            R.id.history -> {
+                seeHistory()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -114,6 +132,17 @@ class MainActivity : AppCompatActivity() {
             val userMass = massET.text.toString().toDoubleOrNull()
             val userHeight = heightET.text.toString().toDoubleOrNull()
             val countStatus = bmiCounter.countWithValidator(userMass, userHeight)
+
+            if(bmiCounter.lastCountStatus == InputStatus.SUCCESS && userMass != null && userHeight != null) {
+                bmiHistory.add(BmiData(userMass, userHeight, bmiCounter.bmi, "08.11.2020", bmiCounter.unitsEn))
+                if(bmiHistory.size > 10) bmiHistory.removeAt(0)
+                val sharedPref = this@MainActivity.getPreferences(Context.MODE_PRIVATE) ?: return
+                with (sharedPref.edit()) {
+                    val historyAsString = Gson().toJson(bmiHistory)
+                    putString(USER_HISTORY_KEY, historyAsString)
+                    apply()
+                }
+            }
             countEffect(countStatus)
         }
     }
@@ -124,5 +153,12 @@ class MainActivity : AppCompatActivity() {
             resultActivity.putExtra("bmi_value", bmiCounter.bmi);
             startActivityForResult(resultActivity, RESULT_ACTIVITY_CODE)
         }
+    }
+
+    private fun seeHistory() {
+            val historyActivity = Intent(this, BmiHistoryActivity::class.java)
+            val historyAsString = Gson().toJson(bmiHistory)
+            historyActivity.putExtra(USER_HISTORY_KEY, historyAsString)
+            startActivity(historyActivity)
     }
 }

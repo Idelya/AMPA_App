@@ -2,9 +2,7 @@ package com.example.bmi_calculator
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bmi_calculator.databinding.ActivityMainBinding
 import com.example.bmi_calculator.databinding.ActivityResultDescribeBinding
-import kotlinx.android.synthetic.main.activity_result_describe.*
 import kotlin.math.round
 
 class ResultDescribeActivity : AppCompatActivity() {

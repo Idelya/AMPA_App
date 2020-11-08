@@ -3,6 +3,7 @@
     <string name="mass_unit_kg">kg</string>
     <string name="mass_unit_lb">lb</string>
     <string name="count_bmi">Count BMI</string>
+    <string name="bmi_label">BMI:</string>
     <string name="empty_value">0.00</string>
     <string name="input_is_empty">Please provide value.</string>
     <string name="height_is_too_low">The value is too low. Make sure the data is in the correct units.</string>
@@ -20,6 +21,8 @@
     <string name="optimum">Optimum</string>
     <string name="overweight">Overweight</string>
     <string name="obesity">Obesity</string>
+    <string name="history">History</string>
+    <string name="no_data_available">No data</string>
     <string name="describeUnderweight">You may not be eating enough or an underlying illness could be
         preventing you from gaining weight. Underweight adults are at increased risk of weakened immune system,
         fragile bones and may experience low energy levels. If you struggle to gain weight, see a GP.</string>
