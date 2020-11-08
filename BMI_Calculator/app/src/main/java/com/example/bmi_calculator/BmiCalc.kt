@@ -51,7 +51,7 @@ class BmiCalc {
     fun getResultStatus(userBmi: Double): BmiResults {
         return when{
             userBmi < 18.5 -> BmiResults.UNDERWEIGHT
-            userBmi < 25.5 -> BmiResults.OPTIMUM
+            userBmi < 25 -> BmiResults.OPTIMUM
             userBmi < 30 -> BmiResults.OVERWEIGHT
             else -> BmiResults.OBESITY
         }

@@ -51,6 +51,14 @@ class ExampleUnitTest {
 
         testBmi.countWithValidator(79.0,143.0)
         assertEquals("Bmi category is not correct", testBmi.getResultStatus(testBmi.bmi), BmiResults.OBESITY)
+
+
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(18.49), BmiResults.UNDERWEIGHT)
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(18.5), BmiResults.OPTIMUM)
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(24.99), BmiResults.OPTIMUM)
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(25.00), BmiResults.OVERWEIGHT)
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(29.99), BmiResults.OVERWEIGHT)
+        assertEquals("Bmi category is not correct", testBmi.getResultStatus(30.00), BmiResults.OBESITY)
     }
 
     @Test
