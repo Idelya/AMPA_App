@@ -1,18 +1,21 @@
 package com.example.bmi_calculator
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.RequiresApi
-import com.google.gson.Gson;
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.bmi_calculator.database.HistoryDao
 import  com.example.bmi_calculator.databinding.ActivityMainBinding
-import com.google.gson.reflect.TypeToken
+import com.example.bmi_calculator.database.HistoryDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bmiCounter: BmiCalc
-    private lateinit var bmiHistory: MutableList<BmiData>
+    private lateinit var dbDao: HistoryDao
     private val HEIGHT_ET_KEY: String = "height_et_key"
     private val MASS_ET_KEY: String = "mass_et_key"
     private val LAST_BMI_KEY: String = "last_bmi_key"
@@ -34,14 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbDao = HistoryDatabase.getInstance(this).historyDao()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         bmiCounter = BmiCalc();
 
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
-        val historyString = sharedPref.getString(USER_HISTORY_KEY, null)
-
-        val type = object : TypeToken<List<BmiData?>?>() {}.type
-        bmiHistory = if(historyString != null) Gson().fromJson(historyString, type) else mutableListOf()
         setContentView(binding.root)
     }
 
@@ -138,14 +138,19 @@ class MainActivity : AppCompatActivity() {
 
             if(bmiCounter.lastCountStatus == InputStatus.SUCCESS && userMass != null && userHeight != null) {
 
-                bmiHistory.add(BmiData(userMass, userHeight, bmiCounter.bmi, getCurrentDate(), bmiCounter.unitsEn))
-                if(bmiHistory.size > 10) bmiHistory.removeAt(0)
-                val sharedPref = this@MainActivity.getPreferences(Context.MODE_PRIVATE) ?: return
-                with (sharedPref.edit()) {
-                    val historyAsString = Gson().toJson(bmiHistory)
-                    putString(USER_HISTORY_KEY, historyAsString)
-                    apply()
+                lifecycleScope.launch(Dispatchers.Default) {
+                    dbDao.insertAll(
+                        BmiData(
+                            mass = userMass,
+                            height = userHeight,
+                            bmi = bmiCounter.bmi,
+                            date = getCurrentDate(),
+                            units_en = bmiCounter.unitsEn
+                        )
+                    )
                 }
+                //I decided to keep all results in database but display only filtered
+                //if(bmiHistory.size > 10) bmiHistory.removeAt(0)
             }
             countEffect(countStatus)
         }
@@ -161,8 +166,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun seeHistory() {
             val historyActivity = Intent(this, BmiHistoryActivity::class.java)
-            val historyAsString = Gson().toJson(bmiHistory)
-            historyActivity.putExtra(USER_HISTORY_KEY, historyAsString)
             startActivity(historyActivity)
     }
 
